@@ -21,16 +21,17 @@ public class DocController {
     private DocService docService;
 
     @RequestMapping("/upload")
-    public ResponseEntity<Integer> uploadDoc(@RequestParam("file") MultipartFile[] files) {
-//        try {
-////            String filePath = "C:\\Users\\18133\\Desktop\\shuiyue.doc";  // 替换成你的 Word 文件路径
-//            DocEntity docEntity = docService.saveDoc(null);
-//            return ResponseEntity.ok(docEntity.getId());
-//        } catch (Exception e) {
-//            return ResponseEntity.internalServerError().build();
-//        }
+    public ResponseEntity<Integer> uploadDoc(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("files") MultipartFile[] files) {
+
         int successCount = 0;
         try {
+            // 打印标题和内容
+            System.out.println("标题: " + title);
+            System.out.println("内容: " + content);
+
             for (MultipartFile file : files) {
                 if (file.isEmpty()) {
                     continue;
@@ -39,7 +40,9 @@ public class DocController {
                 // 转换为字节数组
                 byte[] fileBytes = file.getBytes();  // <--- 核心转换
 
-                docService.saveDoc(fileBytes);
+                // 保存文件到数据库或其他存储
+                docService.saveDoc(fileBytes,title);
+
                 // 示例：打印基本信息
                 System.out.println("文件名：" + file.getOriginalFilename());
                 System.out.println("文件类型：" + file.getContentType());

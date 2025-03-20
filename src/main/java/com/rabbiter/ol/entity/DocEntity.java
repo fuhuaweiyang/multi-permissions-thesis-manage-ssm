@@ -12,6 +12,7 @@ public class DocEntity {
 
     private byte[] files; // BLOB 类型
     private String txt;   // TEXT 类型
+    private String title;   // TEXT 类型
     private Long stuId;   // BIGINT 类型（学生ID）
     private Long teacherId; // BIGINT 类型（教师ID）
 
@@ -24,6 +25,9 @@ public class DocEntity {
 
     public String getTxt() { return txt; }
     public void setTxt(String txt) { this.txt = txt; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String txt) { this.title = txt; }
 
     public Long getStuId() { return stuId; }
     public void setStuId(Long stuId) { this.stuId = stuId; }

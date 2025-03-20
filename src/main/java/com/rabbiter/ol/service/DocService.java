@@ -5,7 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface DocService {
-    DocEntity saveDoc(byte[] file) throws Exception;
+    DocEntity saveDoc(byte[] file,String title) throws Exception;
     Resource getDocById(Integer id) throws Exception;
     void deleteDoc(Integer id);
 }
