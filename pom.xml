@@ -67,6 +67,13 @@
             <version>5.2.3</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.bitbucket.cowwoc</groupId>
+            <artifactId>diff-match-patch</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

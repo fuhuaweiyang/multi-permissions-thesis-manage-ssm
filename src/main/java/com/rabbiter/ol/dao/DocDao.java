@@ -11,10 +11,14 @@ import java.util.HashMap;
 @Mapper
 public interface DocDao extends BaseMapper<ExercisesEntity> {
     // 其他自定义的方法
-    void save(DocEntity doc);
+    Long save(DocEntity doc);
 
     void update(DocEntity doc);
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
+
+    DocEntity findByStuId(Long id);
+
+    DocEntity findByDocId(Long id);
 
 }

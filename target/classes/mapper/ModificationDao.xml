@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rabbiter.ol.dao.ModificationDao">
+
+    <resultMap id="modificationMap" type="com.rabbiter.ol.entity.ModificationEntity">
+        <id property="id" column="id"/>
+        <result property="docId" column="doc_id"/>
+        <result property="stuId" column="stu_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="modificationWhat" column="modification_what"/>
+        <result property="modification" column="modification"/>
+        <result property="modificationTime" column="modification_time"/>
+    </resultMap>
+
+    <!-- 根据文档ID查询 -->
+    <select id="queryById" resultMap="modificationMap" parameterType="java.lang.Long">
+        SELECT * FROM modificationList
+        WHERE doc_id = #{docId} and id = #{modificationId}
+    </select>
+
+    <!-- 新增修改记录 -->
+    <insert id="save" parameterType="com.rabbiter.ol.entity.ModificationEntity"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO modificationList (
+        doc_id, stu_id, teacher_id,
+        modification_what, modification, modification_time
+        ) VALUES (
+        #{docId},
+        #{stuId},
+        #{teacherId},
+        #{modificationWhat},
+        #{modification,jdbcType=LONGVARCHAR},  <!-- 特殊类型需指定 -->
+        #{modificationTime}
+        )
+    </insert>
+
+</mapper>

@@ -2,9 +2,7 @@ package com.rabbiter.ol.controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.rabbiter.ol.common.Result;
 import com.rabbiter.ol.entity.SubjectEntity;
@@ -14,6 +12,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.rabbiter.ol.tool.diff_match_patch;
 
 
 
@@ -74,18 +73,50 @@ public class SubjectController {
     /**
      * 列表
      */
+    public static LinkedList<diff_match_patch.Diff> generateDiff(String textA, String textB) {
+        diff_match_patch dmp = new diff_match_patch();
+        return dmp.diff_main(textA, textB);
+    }
+
+    public static String applyPatch(String textA, String patchText) {
+        diff_match_patch dmp = new diff_match_patch();
+        LinkedList<diff_match_patch.Patch> patches = new LinkedList<>(dmp.patch_fromText(patchText));
+        Object[] result = dmp.patch_apply(patches, textA);
+        return (String) result[0];
+    }
+
     @GetMapping("/findList")
     public String findList() {
-        List<SubjectEntity> list = subjectService.list();
-        try (FileInputStream fis = new FileInputStream("C:\\Users\\18133\\Desktop\\shuiyue.doc");
-             HWPFDocument doc = new HWPFDocument(fis);
-             WordExtractor extractor = new WordExtractor(doc)) {
-             return extractor.getText();
-        } catch (IOException e) {
-            e.printStackTrace();
+//        List<SubjectEntity> list = subjectService.list();
+//        try (FileInputStream fis = new FileInputStream("C:\\Users\\18133\\Desktop\\shuiyue.doc");
+//             HWPFDocument doc = new HWPFDocument(fis);
+//             WordExtractor extractor = new WordExtractor(doc)) {
+//             return extractor.getText();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        String textA = "数据库含有以下几张表：用户表、学生-导师表、论文表、论文修改表。";
+        String textB = "数据库含有以下几张表：学生-导师表、用户表、论文表、论文修改表。";
+
+        diff_match_patch dmp = new diff_match_patch();
+        LinkedList<diff_match_patch.Diff> diffs = generateDiff(textA, textB);
+        System.out.println("Generated Diff:");
+        for (diff_match_patch.Diff diff : diffs) {
+            System.out.println(diff.operation + ": " + diff.text);
         }
-        return "fail";
+
+        List<diff_match_patch.Patch> patches = dmp.patch_make(diffs);
+        String patchText = dmp.patch_toText(patches);
+        System.out.println("\nGenerated Patch:");
+        System.out.println(patchText);
+
+        String restoredTextB = applyPatch(textA, patchText);
+        System.out.println("\nRestored Text B:");
+        System.out.println(restoredTextB);
+        return restoredTextB;
     }
+
+
     public static void saveDocument(String filePath) {
         String textContent = readWordFile(filePath);
         if (textContent == null) {
