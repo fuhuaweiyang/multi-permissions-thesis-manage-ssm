@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rabbiter.ol.dao.DocDao">
+
+    <resultMap id="docMap" type="com.rabbiter.ol.entity.DocEntity">
+        <result property="id" column="id"/>
+        <result property="files" column="files"/>
+        <result property="txt" column="txt"/>
+        <result property="stuId" column="stu_id"/>
+        <result property="teacherId" column="teacher_id"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.rabbiter.ol.entity.DocEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO docList (files, txt, stu_id, teacher_id)
+        VALUES (#{files}, #{txt}, #{stuId}, #{teacherId})
+    </insert>
+
+    <update id="update" parameterType="com.rabbiter.ol.entity.DocEntity">
+        UPDATE docList
+        <set>
+            <if test="files != null">files = #{files},</if>
+            <if test="txt != null">txt = #{txt},</if>
+            <if test="stuId != null">stu_id = #{stuId},</if>
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM docList WHERE id = #{id}
+    </delete>
+
+    <select id="findById" resultMap="docMap" parameterType="java.lang.Integer">
+        SELECT * FROM docList WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="docMap">
+        SELECT * FROM docList
+    </select>
+
+</mapper>
