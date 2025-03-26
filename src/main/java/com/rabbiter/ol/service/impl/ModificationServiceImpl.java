@@ -46,7 +46,7 @@ public class ModificationServiceImpl implements ModificationService {
 //        List<diff_match_patch.Patch> patches = dmp.patch_make(diffs);
 //        String patchText = dmp.patch_toText(patches);
 //        System.out.println("\nGenerated Patch:");
-//        System.out.println(patchText);
+//        System.out.println(patchText);11
         String oldText = docEntity.getTxt();
         String restoredTextB = applyPatch(oldText, patchText);
         System.out.println(oldText);
