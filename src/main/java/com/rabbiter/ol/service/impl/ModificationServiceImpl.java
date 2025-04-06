@@ -8,10 +8,8 @@ import com.rabbiter.ol.service.ModificationService;
 import com.rabbiter.ol.tool.diff_match_patch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.LinkedList;
-import java.util.List;
 
 @Service
 public class ModificationServiceImpl implements ModificationService {
@@ -35,11 +33,12 @@ public class ModificationServiceImpl implements ModificationService {
     }
 
     @Override
-    public DocEntity getDocByModificationId(Long docId,Long modificationId) {
+    public ModificationEntity getDocByModificationId(Long docId,Long modificationId) {
         DocEntity docEntity = docDao.findByDocId(docId);
         ModificationEntity modificationEntity = modificationDao.queryById(docId,modificationId);
         String patchText = modificationEntity.getModification();
         System.out.println(patchText);
+        return modificationEntity;
 //        diff_match_patch dmp = new diff_match_patch();
 //        LinkedList<diff_match_patch.Diff> diffs = generateDiff(docEntity.getTxt(), docEntity.getTxt());
 //
@@ -47,12 +46,17 @@ public class ModificationServiceImpl implements ModificationService {
 //        String patchText = dmp.patch_toText(patches);
 //        System.out.println("\nGenerated Patch:");
 //        System.out.println(patchText);11
-        String oldText = docEntity.getTxt();
-        String restoredTextB = applyPatch(oldText, patchText);
-        System.out.println(oldText);
-        System.out.println(restoredTextB);
-        DocEntity docEntity1 = new DocEntity();
-        docEntity1.setTxt(restoredTextB);
-        return docEntity1;
+//        String oldText = docEntity.getTxt();
+//        String restoredTextB = applyPatch(oldText, patchText);
+//        System.out.println(oldText);
+//        System.out.println(restoredTextB);
+//        DocEntity docEntity1 = new DocEntity();
+//        docEntity1.setTxt(restoredTextB);
+//        return docEntity;
+    }
+
+    @Override
+    public ModificationEntity[] selectByStuIdAndLimit(Long stuId, Integer limit, Integer page){
+        return modificationDao.selectByStuIdAndLimit(stuId,limit,page);
     }
 }

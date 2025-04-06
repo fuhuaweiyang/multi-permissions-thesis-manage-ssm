@@ -6,6 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface DocService {
     DocEntity saveDoc(byte[] file,String title,Long stuId) throws Exception;
-    Resource getDocById(Integer id) throws Exception;
+    DocEntity getDocById(Long id);
     void deleteDoc(Integer id);
 }

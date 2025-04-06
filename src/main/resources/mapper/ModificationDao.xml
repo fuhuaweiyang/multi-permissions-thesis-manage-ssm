@@ -19,6 +19,21 @@
         WHERE doc_id = #{docId} and id = #{modificationId}
     </select>
 
+    <select id="selectByStuIdAndLimit" resultType="com.rabbiter.ol.entity.ModificationEntity">
+        SELECT
+            id,
+            doc_id,
+            stu_id,
+            teacher_id,
+            modification_what,
+            modification,
+            modification_time
+        FROM modificationList
+        WHERE stu_id = #{stuId}
+        ORDER BY modification_time DESC
+            LIMIT #{page}, #{limit}
+    </select>
+
     <!-- 新增修改记录 -->
     <insert id="save" parameterType="com.rabbiter.ol.entity.ModificationEntity"
             useGeneratedKeys="true" keyProperty="id">

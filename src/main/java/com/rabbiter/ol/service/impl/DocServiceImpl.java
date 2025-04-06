@@ -117,6 +117,7 @@ public class DocServiceImpl implements DocService {
             modificationEntity.setModification(patchText);
             modificationEntity.setDocId(docId);
             modificationEntity.setStuId(stuId);
+            modificationEntity.setModificationWhat(title);
             modificationDao.save(modificationEntity);
 //            String restoredTextB = applyPatch(docEntityOld.getTxt(), patchText);
 //            System.out.println("\nRestored Text B:");
@@ -146,8 +147,9 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public Resource getDocById(Integer id) throws Exception {
-        return null;
+    public DocEntity getDocById(Long id) {
+        DocEntity docEntity = docDao.findByDocId(id);
+        return docEntity;
     }
 
     @Override

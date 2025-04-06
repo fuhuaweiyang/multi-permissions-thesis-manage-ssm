@@ -70,16 +70,10 @@ public class DocController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> downloadDoc(@PathVariable Integer id) {
-        try {
-            Resource resource = docService.getDocById(id);
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"document.doc\"")
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(resource);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public DocEntity downloadDoc(@PathVariable Long id) {
+            DocEntity docEntity = docService.getDocById(id);
+            System.out.println(docEntity);
+            return docEntity;
     }
 
     @DeleteMapping("/{id}")

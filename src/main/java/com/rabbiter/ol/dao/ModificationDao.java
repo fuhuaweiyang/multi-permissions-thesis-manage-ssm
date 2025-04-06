@@ -9,4 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ModificationDao extends BaseMapper<HomeworkEntity> {
     ModificationEntity queryById(Long docId, Long modificationId);
     void save(ModificationEntity modification);
+    ModificationEntity[] selectByStuIdAndLimit(Long stuId, Integer limit, Integer page);
 }
