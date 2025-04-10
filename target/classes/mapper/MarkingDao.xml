@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rabbiter.ol.dao.MarkingDao">
+
+    <resultMap id="markingMap" type="com.rabbiter.ol.entity.MarkingEntity">
+        <id property="id" column="id"/>
+        <result property="docId" column="doc_id"/>
+        <result property="stuId" column="stu_id"/>
+        <result property="modificationId" column="modification_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="markingWhat" column="marking_what"/>
+        <result property="marking" column="marking"/>
+        <result property="markingTime" column="marking_time"/>
+    </resultMap>
+
+    <insert id="saveMark" parameterType="com.rabbiter.ol.entity.MarkingEntity"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO markinglist (
+            doc_id, stu_id, modification_id, teacher_id,
+            marking_what, marking, marking_time
+        ) VALUES (
+                     #{docId}, #{stuId}, #{modificationId}, #{teacherId},
+                     #{markingWhat}, #{marking}, #{markingTime}
+                 )
+    </insert>
+
+    <select id="getByStudentId" resultMap="markingMap" parameterType="java.lang.Long">
+        SELECT * FROM markinglist WHERE stu_id = #{stuId}
+    </select>
+
+    <select id="getByMarkingId" resultMap="markingMap" parameterType="java.lang.Long">
+        SELECT * FROM markinglist WHERE id = #{markingId} LIMIT 1
+    </select>
+
+    <select id="getByDocId" resultMap="markingMap" parameterType="java.lang.Long">
+        SELECT * FROM markinglist WHERE doc_id = #{docId} LIMIT 1
+    </select>
+
+</mapper>
